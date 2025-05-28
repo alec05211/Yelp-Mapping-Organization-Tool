@@ -1,20 +1,33 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import SearchBar from './components/SearchBar.jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [results, setResults] = useState([])
 
-  const handleSearch = (query) => {
-    alert(`You searched for: ${query}`)
-    // You can replace this with your actual search logic
+  const handleSearch = async (query) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/search?term=${encodeURIComponent(query)}&location=Chicago`
+      )
+      const data = await response.json()
+      setResults(data.businesses || [])
+    } catch (error) {
+      console.error('Error fetching Yelp data:', error)
+      setResults([])
+    }
   }
 
   return (
     <>
       <SearchBar onSearch={handleSearch} />
+      <ul>
+        {results.map((business) => (
+          <li key={business.id}>
+            <strong>{business.name}</strong> — {business.location.address1}
+          </li>
+        ))}
+      </ul>
     </>
   )
 }
