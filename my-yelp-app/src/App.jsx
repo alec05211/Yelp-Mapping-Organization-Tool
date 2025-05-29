@@ -2,19 +2,17 @@ import React, { useState } from 'react'
 import './App.css'
 import SearchBar from './components/SearchBar.jsx'
 import SearchResultBox from './components/SearchResultBox.jsx'
-import ReactMapGL, { Marker } from 'react-map-gl'
+import Map, { Marker } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-const MAPBOX_TOKEN = 'pk.eyJ1IjoiYWxlYzA1MjExIiwiYSI6ImNtYjhuZzFjcjBvbzQyam9laHN1cmVsdTUifQ.d-ocdRu3CrMv0-LphfQMdQ' // mapbox public access token on mapbox website
+const MAPBOX_TOKEN = 'pk.eyJ1IjoiYWxlYzA1MjExIiwiYSI6ImNtYjhuZzFjcjBvbzQyam9laHN1cmVsdTUifQ.d-ocdRu3CrMv0-LphfQMdQ'
 
 function App() {
   const [results, setResults] = useState([])
-  const [viewport, setViewport] = useState({
+  const [viewState, setViewState] = useState({
     longitude: -87.6298,
     latitude: 41.8781,
-    zoom: 11,
-    width: '100%',
-    height: 400,
+    zoom: 11
   })
 
   const handleSearch = async (query) => {
@@ -25,10 +23,10 @@ function App() {
       const data = await response.json()
       setResults(data.businesses || [])
       if (data.businesses && data.businesses.length > 0) {
-        setViewport({
+        setViewState({
           longitude: data.businesses[0].coordinates.longitude,
           latitude: data.businesses[0].coordinates.latitude,
-          zoom: 12,
+          zoom: 12
         })
       }
     } catch (error) {
@@ -39,10 +37,10 @@ function App() {
 
   const handleSelect = (business) => {
     alert(`Selected: ${business.name}`)
-    setViewport({
+    setViewState({
       longitude: business.coordinates.longitude,
       latitude: business.coordinates.latitude,
-      zoom: 14,
+      zoom: 14
     })
   }
 
@@ -51,10 +49,11 @@ function App() {
       <SearchBar onSearch={handleSearch} />
       <SearchResultBox results={results} onSelect={handleSelect} />
       <div style={{ height: 400, marginTop: 16 }}>
-        <ReactMapGL
-          {...viewport}
-          mapboxApiAccessToken={MAPBOX_TOKEN}
-          onViewportChange={setViewport}
+        <Map
+          {...viewState}
+          onMove={evt => setViewState(evt.viewState)}
+          mapboxAccessToken={MAPBOX_TOKEN}
+          style={{ width: '100%', height: '100%' }}
           mapStyle="mapbox://styles/mapbox/streets-v11"
         >
           {results.map(business => (
@@ -66,7 +65,7 @@ function App() {
               <div style={{ color: 'red' }}>📍</div>
             </Marker>
           ))}
-        </ReactMapGL>
+        </Map>
       </div>
     </>
   )
