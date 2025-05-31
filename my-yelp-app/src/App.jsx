@@ -36,7 +36,7 @@ function App() {
   }
 
   const handleSelect = (business) => {
-    alert(`Selected: ${business.name}`)
+    // alert(`Selected: ${business.name}`)
     setViewState({
       longitude: business.coordinates.longitude,
       latitude: business.coordinates.latitude,
@@ -45,29 +45,37 @@ function App() {
   }
 
   return (
-    <>
-      <SearchBar onSearch={handleSearch} />
-      <SearchResultBox results={results} onSelect={handleSelect} />
-      <div style={{ height: 400, marginTop: 16 }}>
-        <Map
-          {...viewState}
-          onMove={evt => setViewState(evt.viewState)}
-          mapboxAccessToken={MAPBOX_TOKEN}
-          style={{ width: '100%', height: '100%' }}
-          mapStyle="mapbox://styles/mapbox/streets-v11"
-        >
-          {results.map(business => (
-            <Marker
-              key={business.id}
-              longitude={business.coordinates.longitude}
-              latitude={business.coordinates.latitude}
-            >
-              <div style={{ color: 'red' }}>📍</div>
-            </Marker>
-          ))}
-        </Map>
+    <div className="app-layout">
+      <div className="search-bar-container">
+        <SearchBar onSearch={handleSearch} />
       </div>
-    </>
+      
+      <div className="content-container">
+        <div className="results-container">
+          <SearchResultBox results={results} onSelect={handleSelect} />
+        </div>
+        
+        <div className="map-container">
+          <Map
+            {...viewState}
+            onMove={evt => setViewState(evt.viewState)}
+            mapboxAccessToken={MAPBOX_TOKEN}
+            style={{ width: '100%', height: '100%' }}
+            mapStyle="mapbox://styles/mapbox/streets-v11"
+          >
+            {results.map(business => (
+              <Marker
+                key={business.id}
+                longitude={business.coordinates.longitude}
+                latitude={business.coordinates.latitude}
+              >
+                <div style={{ color: 'red' }}>📍</div>
+              </Marker>
+            ))}
+          </Map>
+        </div>
+      </div>
+    </div>
   )
 }
 
