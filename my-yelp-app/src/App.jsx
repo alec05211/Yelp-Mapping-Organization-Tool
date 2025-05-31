@@ -36,7 +36,6 @@ function App() {
   }
 
   const handleSelect = (business) => {
-    // alert(`Selected: ${business.name}`)
     setViewState({
       longitude: business.coordinates.longitude,
       latitude: business.coordinates.latitude,
