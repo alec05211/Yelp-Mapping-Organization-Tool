@@ -2,6 +2,7 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
+  min-height: 100vh;
 }
 
 .app-layout {
@@ -22,14 +23,28 @@
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
   align-items: start;
+  height: 500px;
+  opacity: 1;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .map-container {
-  height: 400px;
+  height: 100%;
   width: 100%;
 }
 
 .results-container {
-  height: 400px;
+  height: 100%;
   overflow-y: auto;
 }
