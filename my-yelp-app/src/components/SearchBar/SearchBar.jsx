@@ -10,9 +10,11 @@ function SearchBar({ onSearch }) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} class="search">
+            <span className="material-symbols-outlined"> search </span>
             <input
                 type="text"
+                class="search-input"
                 placeholder="Search..."
                 value={query}
                 onChange={e => setQuery(e.target.value)}

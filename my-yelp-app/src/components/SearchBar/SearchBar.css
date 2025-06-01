@@ -1,5 +1,16 @@
-.search-bar {
-    
+.search {
+    width: max-content;
+    display: flex;
+    align-items: center;
+    padding: 14px;
+    border-radius: 28px;
+    background-color: #f6f6f6;
+}
+
+.search-input {
+    outline: none;
+    border: none;
+    background: transparent;
 }
   
 
