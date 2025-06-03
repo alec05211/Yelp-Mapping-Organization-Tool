@@ -1,0 +1,10 @@
+.navbar {
+    display: flex;
+    justify-content: center;
+}
+
+.location-button {
+    width: max-content;
+    display: flex;
+    align-items: center;
+}

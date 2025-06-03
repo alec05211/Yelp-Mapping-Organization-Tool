@@ -11,7 +11,7 @@ function SearchBar({ onSearch }) {
 
     return (
         <form onSubmit={handleSubmit} class="search">
-            <span className="material-symbols-outlined"> search </span>
+            <span className="material-symbols-outlined" style={{color: '#666',padding: '8px'}}> search </span>
             <input
                 type="text"
                 class="search-input"
