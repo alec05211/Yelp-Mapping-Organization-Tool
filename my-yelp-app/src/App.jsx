@@ -53,12 +53,17 @@ function App() {
 
   return (
     <div className="app-layout">
-      <Navbar/>
+      <div className="navbar-section">
+        <Navbar/>
+      </div>
+      
       <div className="search-bar-container">
-        <SearchBar onSearch={handleSearch} class="search-bar"/>
+        <SearchBar onSearch={handleSearch} className="search-bar"/>
       </div>
 
-      <FoodRecSection onCategoryClick={handleCategoryClick} />
+      <div className="food-rec-section">
+        <FoodRecSection onCategoryClick={handleCategoryClick} />
+      </div>
       
       {hasSearched && (
         <div className="content-container">

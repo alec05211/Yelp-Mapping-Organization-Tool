@@ -1,10 +1,22 @@
 .navbar {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(226, 226, 226, 0.664);
+    width: 100%;
+    padding: 8px 24px;
+    box-sizing: border-box; /* Add this to include padding in width calculation */
+    max-width: inherit; /* Respect parent's max-width */
 }
 
 .location-button {
     width: max-content;
     display: flex;
     align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #000000;
+    background-color: white;
+    color: rgb(0, 102, 255);
 }
