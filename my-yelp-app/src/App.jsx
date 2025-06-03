@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import SearchBar from './components/SearchBar/SearchBar';
 import SearchResultBox from './components/SearchResultBox';
-import FoodRecSection from './components/FoodRecSection';
+import FoodRecSection from './components/FoodRecSection/FoodRecSection';
 import Map, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 

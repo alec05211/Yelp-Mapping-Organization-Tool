@@ -15,7 +15,6 @@ const FoodRecSection = ({ onCategoryClick }) => {
 
   return (
     <div className="food-rec-container">
-      <h2>Popular Categories</h2>
       <div className="category-buttons">
         {categories.map((category) => (
           <button
