@@ -5,8 +5,8 @@
     background-color: rgba(226, 226, 226, 0.664);
     width: 100%;
     padding: 8px 24px;
-    box-sizing: border-box; /* Add this to include padding in width calculation */
-    max-width: inherit; /* Respect parent's max-width */
+    box-sizing: border-box; 
+    max-width: inherit; 
 }
 
 .location-button {

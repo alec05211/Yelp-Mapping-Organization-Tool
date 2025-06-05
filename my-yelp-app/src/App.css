@@ -43,6 +43,10 @@
   height: 500px;
   opacity: 1;
   animation: fadeIn 0.3s ease-in;
+
+  /* max-width: 1200px; */
+  margin: 0 auto;
+  width: 75%;
 }
 
 @keyframes fadeIn {

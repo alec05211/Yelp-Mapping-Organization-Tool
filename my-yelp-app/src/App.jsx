@@ -39,7 +39,7 @@ function App() {
     }
   };
 
-  const handleSelect = (business) => {
+  const handleBusinessSelect = (business) => {
     setViewState({
       longitude: business.coordinates.longitude,
       latitude: business.coordinates.latitude,
@@ -49,6 +49,10 @@ function App() {
 
   const handleCategoryClick = (category) => {
     handleSearch(category);
+  };
+
+  const onListButtonClick = () => {
+
   };
 
   return (
@@ -68,7 +72,7 @@ function App() {
       {hasSearched && (
         <div className="content-container">
           <div className="results-container">
-            <SearchResultBox results={results} onSelect={handleSelect} />
+            <SearchResultBox results={results} onSelect={handleBusinessSelect} />
           </div>
           
           <div className="map-container">
