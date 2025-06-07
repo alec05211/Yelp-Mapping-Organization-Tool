@@ -1,0 +1,22 @@
+.result-item {
+  transition: all 0.3s ease;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: left;
+  background: white;
+  cursor: pointer;
+}
+
+.result-item.expanded {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.collapsed-view {
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.collapsed-view span {
+  margin: 0 8px;
+}

@@ -1,7 +1,13 @@
 import React from 'react';
+import './businessItem.css';
 
 function BusinessItem({ business }) {
-  // Destructure the business props you want to use
+
+
+  const expandBusinessView = () => {
+    console.log(`Expanding view for: ${business.name}`);
+  }
+
   const { 
     name, 
     rating, 
@@ -14,13 +20,15 @@ function BusinessItem({ business }) {
 
   return (
     <div className="business-item">
-      {/* <img src={image_url} alt={name} /> */}
+      <img src={image_url} alt={name} className="image" />
       <div className="business-info">
-        <h3>{name}</h3>
+        <p>{name}</p>
         <p>Rating: {rating} ({review_count} reviews)</p>
         <p>{location.address1}</p>
         <p>{categories.map(cat => cat.title).join(', ')}</p>
         <p>{price}</p>
+
+        <button className="expand-card-button" onClick={expandBusinessView}> <span className="material-symbols-outlined"> chevron_right </span> </button>
       </div>
     </div>
   )

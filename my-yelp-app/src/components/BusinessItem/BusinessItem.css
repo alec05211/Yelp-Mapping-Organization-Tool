@@ -1,0 +1,54 @@
+.image {
+    width: 200px;    /* Set a fixed width */
+    height: 100%;   /* Set a fixed height */
+    object-fit: cover;  /* Maintain aspect ratio and cover the container */
+    flex-shrink: 0;    /* Prevent image from shrinking */
+    border-radius: 8px; /* Optional: adds rounded corners */
+}
+
+.business-item {
+    display: flex;
+    gap: 20px;
+    padding: 16px;
+    height: 200px;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+}
+
+.business-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  
+    align-items: flex-start; 
+    padding-left: 16px;      
+    gap: 8px;               
+}
+
+.business-info p {
+    margin: 0;
+    padding: 0;
+    line-height: 1.4;
+    text-align: left;
+}
+
+.expand-card-button {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.expand-card-button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
