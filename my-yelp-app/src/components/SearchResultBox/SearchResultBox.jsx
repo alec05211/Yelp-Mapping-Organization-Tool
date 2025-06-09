@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import BusinessItem from './BusinessItem/BusinessItem'
+import BusinessItem from '../BusinessItem/BusinessItem'
 
-function SearchResultBox({ results, onSelect }) {
+function SearchResultBox({ results, onSelect, onExpand}) {
   const [expandedId, setExpandedId] = useState(null);
 
   const handleClick = (business) => {
@@ -19,7 +19,7 @@ function SearchResultBox({ results, onSelect }) {
               <span>{business.location.address1}</span>
             </div>
           ) : (
-            <BusinessItem business={business} />
+            <BusinessItem business={business} handleExpandedBusinessView={onExpand}/>
           )}
         </button>
       ))}

@@ -1,9 +1,9 @@
 .image {
-    width: 200px;    /* Set a fixed width */
-    height: 100%;   /* Set a fixed height */
-    object-fit: cover;  /* Maintain aspect ratio and cover the container */
-    flex-shrink: 0;    /* Prevent image from shrinking */
-    border-radius: 8px; /* Optional: adds rounded corners */
+    width: 200px;    
+    height: 100%;   
+    object-fit: cover; 
+    flex-shrink: 0; 
+    border-radius: 8px;
 }
 
 .business-item {

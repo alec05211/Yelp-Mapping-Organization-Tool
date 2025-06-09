@@ -1,11 +1,12 @@
 import React from 'react';
 import './businessItem.css';
 
-function BusinessItem({ business }) {
+function BusinessItem({ business, handleExpandedBusinessView }) {
 
 
-  const expandBusinessView = () => {
+  const expandBusinessView = (business) => {
     console.log(`Expanding view for: ${business.name}`);
+    handleExpandedBusinessView(business);
   }
 
   const { 
@@ -28,7 +29,9 @@ function BusinessItem({ business }) {
         <p>{categories.map(cat => cat.title).join(', ')}</p>
         <p>{price}</p>
 
-        <button className="expand-card-button" onClick={expandBusinessView}> <span className="material-symbols-outlined"> chevron_right </span> </button>
+        <button className="expand-card-button" onClick={() => expandBusinessView(business)}> 
+          <span className="material-symbols-outlined">chevron_right</span>
+        </button>
       </div>
     </div>
   )

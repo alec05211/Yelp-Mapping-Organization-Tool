@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import './App.css';
 import SearchBar from './components/SearchBar/SearchBar';
-import SearchResultBox from './components/SearchResultBox';
+import SearchResultBox from './components/SearchResultBox/SearchResultBox';
 import FoodRecSection from './components/FoodRecSection/FoodRecSection';
 import Navbar from './components/Navbar/Navbar';
 import Map, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import ExpandedBusinessView from './components/ExpandedBusinessView/ExpandedBusinessView';
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoiYWxlYzA1MjExIiwiYSI6ImNtYjhuZzFjcjBvbzQyam9laHN1cmVsdTUifQ.d-ocdRu3CrMv0-LphfQMdQ'
 
@@ -17,6 +18,8 @@ function App() {
     latitude: 41.8781,
     zoom: 11
   });
+  const [selectedBusiness, setSelectedBusiness] = useState(null);
+  const [businessExpanded, setBusinessExpanded] = useState(false);
 
   const handleSearch = async (query) => {
     try {
@@ -38,17 +41,22 @@ function App() {
   };
 
   const handleBusinessSelect = (business) => {
+    setSelectedBusiness(business);
     setViewState({
       longitude: business.coordinates.longitude,
       latitude: business.coordinates.latitude,
       zoom: 14
-    })
-  }
+    });
+  };
 
   const handleCategoryClick = (category) => {
     handleSearch(category);
   };
 
+  const handleExpandedBusinessView = (business) => {
+    setBusinessExpanded(true);
+  };
+  
   const onListButtonClick = () => {
 
   };
@@ -69,10 +77,20 @@ function App() {
       
       {hasSearched && (
         <div className="content-container">
-          <div className="results-container">
-            <SearchResultBox results={results} onSelect={handleBusinessSelect} />
+          <div className={`results-container ${businessExpanded ? 'shifted' : ''}`}>
+            <SearchResultBox 
+              results={results} 
+              onSelect={handleBusinessSelect} 
+              onExpand={handleExpandedBusinessView}
+            />
           </div>
           
+          {businessExpanded && (
+            <div className="selected-business-expandedContainer">
+              <ExpandedBusinessView business={selectedBusiness} onClose={() => setBusinessExpanded(false)}/>
+            </div>
+          )}
+
           <div className="map-container">
             <Map
               {...viewState}
