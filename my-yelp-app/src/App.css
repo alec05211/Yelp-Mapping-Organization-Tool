@@ -36,8 +36,7 @@
 
 .content-container {
   grid-area: content;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   gap: 1rem;
   padding: 1rem;
   height: 500px;
@@ -46,34 +45,36 @@
 }
 
 .results-container {
+  flex: 1;  
   height: 100%;
   overflow-y: auto;
-  transition: transform 0.3s ease-out;
+  transition: all 0.3s ease-out;
   transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .results-container.shifted {
-  transform: translateX(-90%);
+  transform: translateX(-100%);
+  opacity: 0;
+  pointer-events: none; /* Disables interaction */
+  visibility: hidden;   /* Hides from screen readers and tab order */
 }
 
 .selected-business-expandedContainer {
-  position: absolute;
-  left: 350px;
+  flex: 1;
+  position: absolute;      
   top: 1rem;
-  width: 350px;
-  opacity: 0;
   transform: translateX(100%);
   animation: slideInFromRight 0.3s ease-out forwards;
   background: white;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  max-height: calc(100% - 2rem);
-  overflow-y: auto;
 }
 
 .map-container {
+  flex: 1;  
   height: 100%;
-  width: 100%;
+  min-width: 0; 
 }
 
 @keyframes fadeIn {

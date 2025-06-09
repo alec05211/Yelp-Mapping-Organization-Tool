@@ -1,4 +1,5 @@
 import React from 'react';
+import './ExpandedBusinessView.css';
 
 function ExpandedBusinessView({ business, onClose }) {
   if (!business) return null;
@@ -22,7 +23,6 @@ function ExpandedBusinessView({ business, onClose }) {
       </button>
       
       <div className="business-header">
-        {/* <img src={image_url} alt={name} /> */}
         <h1>{name}</h1>
       </div>
 
