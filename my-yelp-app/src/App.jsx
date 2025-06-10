@@ -8,7 +8,8 @@ import Map, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import ExpandedBusinessView from './components/ExpandedBusinessView/ExpandedBusinessView';
 
-const MAPBOX_TOKEN = 'pk.eyJ1IjoiYWxlYzA1MjExIiwiYSI6ImNtYjhuZzFjcjBvbzQyam9laHN1cmVsdTUifQ.d-ocdRu3CrMv0-LphfQMdQ'
+
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
 function App() {
   const [results, setResults] = useState([]);

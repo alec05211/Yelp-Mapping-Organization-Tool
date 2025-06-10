@@ -34,6 +34,8 @@ function ExpandedBusinessView({ business, onClose }) {
         <p>Phone: {phone}</p>
         <a href={url} target="_blank" rel="noopener noreferrer">View on Yelp</a>
       </div>
+      
+      <button><span class="material-symbols-outlined">add</span></button>
     </div>
   );
 }
