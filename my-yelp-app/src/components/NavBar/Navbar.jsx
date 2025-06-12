@@ -9,11 +9,11 @@ function Navbar() {
     }
     
     return (
-        <div class="navbar">
-            <button class="location-button"> <span class="material-symbols-outlined">near_me</span> Location</button>
+        <div className="navbar">
+            <button className="location-button"> <span className="material-symbols-outlined">near_me</span> Location</button>
             
-            <button class="my-list-button" onClick={() => handleSelect()}> 
-                <span class="material-symbols-outlined">bookmarks</span> 
+            <button className="my-list-button" onClick={() => handleSelect()}> 
+                <span className="material-symbols-outlined">bookmarks</span> 
             </button>
         </div>
     );

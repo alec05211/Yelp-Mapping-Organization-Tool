@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import SearchBar from './components/SearchBar/SearchBar';
 import SearchResultBox from './components/SearchResultBox/SearchResultBox';
@@ -15,17 +15,48 @@ function App() {
   const [hasSearched, setHasSearched] = useState(false);
   const [selectedBusiness, setSelectedBusiness] = useState(null);
   const [businessExpanded, setBusinessExpanded] = useState(false);
-  const [viewState, setViewState] = useState({
-    longitude: -87.6298,
+  const [viewState, setViewState] = useState({  // populate with initial view state
+    longitude: -87.6298, 
     latitude: 41.8781,
     zoom: 11
   });
+  const [userLocation, setUserLocation] = useState(null);
 
-  
-  
+  useEffect(() => { // useEffect to get user location when component mounts
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        // Success callback
+        position => {
+          const newLocation = {
+            longitude: position.coords.longitude,
+            latitude: position.coords.latitude
+          };
+          setUserLocation(newLocation);
+          setViewState(prev => ({
+            ...prev,
+            ...newLocation,
+            zoom: 12
+          }));
+        },
+        // Error callback
+        error => {
+          console.warn("Error getting location:", error.message);
+          // Keep default Chicago coordinates if geolocation fails
+        }
+      );
+    }
+  }, []); // Empty dependency array means this runs once on mount
+
   const handleSearch = async (query) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/search?term=${encodeURIComponent(query)}&location=Chicago`);
+      // Use user's location if available, otherwise default to Chicago
+      const location = userLocation 
+        ? `${userLocation.latitude},${userLocation.longitude}`
+        : 'Chicago';
+
+      const response = await fetch(
+        `http://localhost:5000/api/search?term=${encodeURIComponent(query)}&location=${location}`
+      );
       const data = await response.json();
       setResults(data.businesses || []);
       setHasSearched(true);
@@ -60,7 +91,7 @@ function App() {
   };
   
   const onListButtonClick = () => {
-
+    
   };
 
   return (
@@ -101,6 +132,22 @@ function App() {
               style={{ width: '100%', height: '100%' }}
               mapStyle="mapbox://styles/mapbox/streets-v11"
             >
+              {userLocation && (
+                <Marker
+                  longitude={userLocation.longitude}
+                  latitude={userLocation.latitude}
+                >
+                  <div style={{
+                    width: '12px',
+                    height: '12px',
+                    backgroundColor: '#2196F3',
+                    borderRadius: '50%',
+                    border: '2px solid white',
+                    boxShadow: '0 0 0 2px rgba(33, 150, 243, 0.4)'
+                  }}/>
+                </Marker>
+              )}
+              
               {results.map(business => (
                 <Marker
                   key={business.id}
@@ -114,6 +161,7 @@ function App() {
           </div>
         </div>
       )}
+      <div className="user-location-marker" />
     </div>
   );
 }

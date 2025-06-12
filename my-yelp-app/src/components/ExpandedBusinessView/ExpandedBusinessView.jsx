@@ -2,6 +2,36 @@ import React from 'react';
 import './ExpandedBusinessView.css';
 
 function ExpandedBusinessView({ business, onClose }) {
+  const handleAddBusiness = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/favorites', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          businessId: business.id,
+          name: business.name,
+          rating: business.rating,
+          image_url: business.image_url,
+          url: business.url,
+          location: business.location,
+          // Add any other fields you want to save
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add business to favorites');
+      }
+
+      // Optional: Show success message
+      alert('Added to favorites!');
+    } catch (error) {
+      console.error('Error adding business:', error);
+      alert('Failed to add business');
+    }
+  };
+
   if (!business) return null;
 
   const {
@@ -35,7 +65,12 @@ function ExpandedBusinessView({ business, onClose }) {
         <a href={url} target="_blank" rel="noopener noreferrer">View on Yelp</a>
       </div>
       
-      <button><span class="material-symbols-outlined">add</span></button>
+      <button 
+        onClick={handleAddBusiness}
+        className="add-button"
+      >
+        <span className="material-symbols-outlined">add</span>
+      </button>
     </div>
   );
 }

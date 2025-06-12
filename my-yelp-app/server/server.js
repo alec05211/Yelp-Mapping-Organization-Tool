@@ -1,9 +1,12 @@
 import express from 'express'
 import axios from 'axios'
 import cors from 'cors'
+import favoritesRouter from './routes/favorites.js'
 
 const app = express()
 app.use(cors())
+app.use(express.json())
+app.use('/api', favoritesRouter)
 
 const YELP_API_KEY = import.meta.env.REACT_APP_YELP_API_KEY;
 
