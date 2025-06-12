@@ -8,20 +8,21 @@ import Map, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import ExpandedBusinessView from './components/ExpandedBusinessView/ExpandedBusinessView';
 
-
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
 function App() {
   const [results, setResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const [selectedBusiness, setSelectedBusiness] = useState(null);
+  const [businessExpanded, setBusinessExpanded] = useState(false);
   const [viewState, setViewState] = useState({
     longitude: -87.6298,
     latitude: 41.8781,
     zoom: 11
   });
-  const [selectedBusiness, setSelectedBusiness] = useState(null);
-  const [businessExpanded, setBusinessExpanded] = useState(false);
 
+  
+  
   const handleSearch = async (query) => {
     try {
       const response = await fetch(`http://localhost:5000/api/search?term=${encodeURIComponent(query)}&location=Chicago`);
