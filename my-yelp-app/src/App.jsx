@@ -131,6 +131,9 @@ function App() {
               mapboxAccessToken={MAPBOX_TOKEN}
               style={{ width: '100%', height: '100%' }}
               mapStyle="mapbox://styles/mapbox/streets-v11"
+              // Add these props to address WebGL warnings
+              renderWorldCopies={false}
+              reuseMaps
             >
               {userLocation && (
                 <Marker

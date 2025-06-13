@@ -1,29 +1,35 @@
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
-const { MongoClient } = require('mongodb');
+const { connectDB, client } = require('../config/db');
 
-const uri = import.meta.env.MONGODB_URI;
-const client = new MongoClient(uri);
+router.post('/', async (req, res) => {
+    // reg.body should contain the business data to be saved that was posted by the ExpandedBusinessView component
+    try {
+        const db = await connectDB();                       // connects to the database
+        const favorites = db.collection('favorites');       // gets the favorites collection
 
-router.post('/favorites', async (req, res) => {
-  try {
-    await client.connect();
-    const database = client.db('yelpapp');
-    const favorites = database.collection('favorites');
+        const result = await favorites.insertOne({
+            ...req.body,
+            createdAt: new Date()
+        });
 
-    const result = await favorites.insertOne({
-      ...req.body,
-      createdAt: new Date(),
-      // Add user ID here when you implement authentication
-    });
+        // Check if insertion was successful
+        if (!result.acknowledged) {
+            throw new Error('Insert operation not acknowledged');
+        }
 
-    res.status(201).json(result);
-  } catch (error) {
-    console.error('Database error:', error);
-    res.status(500).json({ error: 'Failed to add to favorites' });
-  } finally {
-    await client.close();
-  }
+        // Send back the inserted document ID and confirmation
+        res.status(201).json({
+            message: 'Business added to favorites',
+            insertedId: result.insertedId,
+            business: req.body.name
+        });
+
+    } catch (error) {
+        console.error('Database error:', error);
+        res.status(500).json({ error: 'Failed to add to favorites' });
+    }
 });
 
 module.exports = router;

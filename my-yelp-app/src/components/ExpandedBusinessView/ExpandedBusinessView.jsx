@@ -1,10 +1,12 @@
 import React from 'react';
 import './ExpandedBusinessView.css';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 function ExpandedBusinessView({ business, onClose }) {
   const handleAddBusiness = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/favorites', {
+      const response = await fetch(`${API_URL}/api/favorites`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -16,16 +18,13 @@ function ExpandedBusinessView({ business, onClose }) {
           image_url: business.image_url,
           url: business.url,
           location: business.location,
-          // Add any other fields you want to save
+          // any other fields intended to be saved
         })
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to add business to favorites');
-      }
-
-      // Optional: Show success message
-      alert('Added to favorites!');
+      if (!response.ok) {throw new Error('Failed to add business to favorites');}   // if response is not ok, throw an error
+      alert('Added to favorites!');                                                 // otherwise, show success message                  
+                                                     
     } catch (error) {
       console.error('Error adding business:', error);
       alert('Failed to add business');
@@ -65,10 +64,7 @@ function ExpandedBusinessView({ business, onClose }) {
         <a href={url} target="_blank" rel="noopener noreferrer">View on Yelp</a>
       </div>
       
-      <button 
-        onClick={handleAddBusiness}
-        className="add-button"
-      >
+      <button onClick={handleAddBusiness} className="add-button">
         <span className="material-symbols-outlined">add</span>
       </button>
     </div>

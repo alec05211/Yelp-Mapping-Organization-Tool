@@ -12,16 +12,24 @@ function SearchResultBox({ results, onSelect, onExpand}) {
   return (
     <div className="search-results">
       {results?.map((business) => (
-        <button key={business.id} className={`result-item ${expandedId === business.id ? 'expanded' : ''}`} onClick={() => handleClick(business)} style={{ display: 'block', width: '100%' }}>
-          {expandedId !== business.id ? (
-            <div className="collapsed-view">
-              <span>{business.name}</span> - 
-              <span>{business.location.address1}</span>
-            </div>
-          ) : (
-            <BusinessItem business={business} handleExpandedBusinessView={onExpand}/>
-          )}
-        </button>
+        <div key={business.id} className={`result-item ${expandedId === business.id ? 'expanded' : ''}`}>
+          <div 
+            className="result-item-content"
+            onClick={() => handleClick(business)}
+            role="button"
+            tabIndex={0}
+            style={{ display: 'block', width: '100%', cursor: 'pointer' }}
+          >
+            {expandedId !== business.id ? (
+              <div className="collapsed-view">
+                <span>{business.name}</span> - 
+                <span>{business.location.address1}</span>
+              </div>
+            ) : (
+              <BusinessItem business={business} handleExpandedBusinessView={onExpand}/>
+            )}
+          </div>
+        </div>
       ))}
     </div>
   )
