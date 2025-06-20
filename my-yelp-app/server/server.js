@@ -33,22 +33,6 @@ app.get('/api/search', async (req, res) => {
   }
 })
 
-// app.get('/test-db', async (req, res) => {
-//   console.log('route hit');
-//   await connectDB();
-//   res.send('DB connection attempted');
-// });
-// router.get('/test', async (req, res) => {
-//   try {
-//     const db = await connectDB();
-//     const favorites = db.collection('favorites');
-//     const result = await favorites.insertOne({ test: true, createdAt: new Date() });
-//     res.json({ insertedId: result.insertedId });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
-
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

@@ -8,8 +8,6 @@ console.log('MONGODB_URI:', uri);
 const client = new MongoClient(uri);
 
 export async function connectDB() {
-  console.log('connectDB called');
-  console.log('MongoDB URI:', uri);
   try {
     await client.connect();
     console.log('Connected to MongoDB');

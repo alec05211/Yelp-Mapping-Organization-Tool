@@ -6,7 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 function ExpandedBusinessView({ business, onClose }) {
   const handleAddBusiness = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/favorites`, {
+      const response = await fetch(`http://localhost:5000/api/favorites`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ function ExpandedBusinessView({ business, onClose }) {
       alert('Added to favorites!');                                                 // otherwise, show success message                  
                                                      
     } catch (error) {
-      console.error('Error adding business:', error);
+      console.error('ERROR ADDING BUSINESS! -> ', error);
       alert('Failed to add business');
     }
   };

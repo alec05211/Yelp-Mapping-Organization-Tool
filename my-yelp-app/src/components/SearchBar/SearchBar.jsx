@@ -10,16 +10,16 @@ function SearchBar({ onSearch }) {
     }
 
     return (
-        <form onSubmit={handleSubmit} class="search">
+        <form onSubmit={handleSubmit} className="search">
             <span className="material-symbols-outlined" style={{color: '#666',padding: '8px'}}> search </span>
             <input
                 type="text"
-                class="search-input"
+                className="search-input"
                 placeholder="Search..."
                 value={query}
                 onChange={e => setQuery(e.target.value)}
             />
-            <button type="submit" class="button">Search</button>
+            <button type="submit" className="button">Search</button>
         </form>
     )
 }
