@@ -24,10 +24,9 @@ function SearchResultBox({ results, onSelect, onExpand}) {
           >
             {expandedId !== business.id ? (
               <div className="collapsed-view">
-                <p>{business.name}</p> 
-                <p>{business.location.city}</p>
-                {/* <p>{business.location.address1}</p> */}
-                <p>{business.rating} ⭐</p>
+                <p>{business.name} ({business.location.address1}, {business.location.city})</p> 
+                <p>{business.price}</p>
+                <p>{business.rating} ★</p>
               </div>
             ) : (
               <BusinessItem business={business} handleExpandedBusinessView={onExpand}/>

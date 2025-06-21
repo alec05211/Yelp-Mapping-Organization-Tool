@@ -50,21 +50,36 @@ function ExpandedBusinessView({ business, onClose }) {
       <button className="close-button" onClick={onClose}>
         <span className="material-symbols-outlined">close</span>
       </button>
-      
-      
       <h1>{name}</h1>
-      <img src={image_url} alt={name} className="business-image" />
-      <p>Rating: {rating} ({review_count} reviews)</p>
-      <p>Price: {price}</p>
-      <p>Categories: {categories.map(cat => cat.title).join(', ')}</p>
-      <p>Address: {location.address1}</p>
-      <p>Phone: {phone}</p>
-      <a href={url} target="_blank" rel="noopener noreferrer">View on Yelp</a>
+      <div>
+        <section className="restaurant-interactables">
+          <button onClick={handleAddBusiness} className="add-button">
+            <span className="material-symbols-outlined">add</span>
+          </button>
+          <button className='yelp-link-button'>
+            <a href={url} target="_blank" rel="noopener noreferrer">View on Yelp</a>
+          </button>
+          <button className='website-button'>
+            <p>website</p>
+          </button>
+          <button>
+            <a href={`tel:${phone}`}>Call</a>
+          </button>
+        </section>
+
+        <div>
+          <p>Rating: {rating} ({review_count} reviews)</p>
+          <p>Price: {price}</p>
+          <p>Categories: {categories.map(cat => cat.title).join(', ')}</p>
+          <p>Address: {location.address1}</p>
+          <p>Phone: {phone}</p>
+        </div>
+      </div>
       
       
-      <button onClick={handleAddBusiness} className="add-button">
-        <span className="material-symbols-outlined">add</span>
-      </button>
+      
+      
+      
     </div>
   );
 }
