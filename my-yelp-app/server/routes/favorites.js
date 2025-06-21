@@ -29,4 +29,19 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.get('/', async (req, res) => {
+    try {
+        const db = await connectDB();
+        const favorites = db.collection('favorites');
+
+        const allFavorites = await favorites.find({}).toArray();
+
+        res.status(200).json(allFavorites);
+    } catch (error) {
+        console.error('Database error:', error);
+        res.status(500).json({ error: 'Failed to retrieve favorites' });
+    }
+});
+
+
 export default router;

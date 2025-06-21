@@ -7,6 +7,7 @@ import Navbar from './components/Navbar/Navbar';
 import Map, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import ExpandedBusinessView from './components/ExpandedBusinessView/ExpandedBusinessView';
+import UserBusinessCollection from './components/UserBusinessCollection/UserBusinessCollection';
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
@@ -21,6 +22,7 @@ function App() {
     zoom: 11
   });
   const [userLocation, setUserLocation] = useState(null);
+  const [showCollection, setShowCollection] = useState(false);
 
   useEffect(() => { // useEffect to get user location when component mounts
     if ("geolocation" in navigator) {
@@ -90,14 +92,13 @@ function App() {
     setBusinessExpanded(true);
   };
   
-  const onListButtonClick = () => {
-    
-  };
+  const handleListButtonClick = () => setShowCollection(true);
+  const handleCloseCollection = () => setShowCollection(false);
 
   return (
     <div className="app-layout">
       <div className="navbar-section">
-        <Navbar/>
+        <Navbar onListButtonClick={handleListButtonClick}/>
       </div>
       
       <div className="search-bar-container">
@@ -163,6 +164,9 @@ function App() {
             </Map>
           </div>
         </div>
+      )}
+      {showCollection && (
+        <UserBusinessCollection onClose={handleCloseCollection} />
       )}
       <div className="user-location-marker" />
     </div>
