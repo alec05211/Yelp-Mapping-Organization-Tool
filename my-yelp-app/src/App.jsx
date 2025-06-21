@@ -4,7 +4,7 @@ import SearchBar from './components/SearchBar/SearchBar';
 import SearchResultBox from './components/SearchResultBox/SearchResultBox';
 import FoodRecSection from './components/FoodRecSection/FoodRecSection';
 import Navbar from './components/Navbar/Navbar';
-import Map, { Marker } from 'react-map-gl';
+import Map, { Marker, GeolocateControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import ExpandedBusinessView from './components/ExpandedBusinessView/ExpandedBusinessView';
 import UserBusinessCollection from './components/UserBusinessCollection/UserBusinessCollection';
@@ -136,9 +136,17 @@ function App() {
               mapboxAccessToken={MAPBOX_TOKEN}
               style={{ width: '100%', height: '100%' }}
               mapStyle="mapbox://styles/mapbox/streets-v11"
-              renderWorldCopies={false} // Added these props to address WebGL warnings
+              renderWorldCopies={false}
               reuseMaps
             >
+              <GeolocateControl
+                position="top-left"
+                showAccuracyCircle={true}
+                showUserLocation={true}
+                trackUserLocation={true}
+                auto
+              />
+
               {userLocation && (
                 <Marker longitude={userLocation.longitude} latitude={userLocation.latitude}>
                   <div style={{
@@ -165,8 +173,6 @@ function App() {
           )}
         </div>
       )}
-      
-      <div className="user-location-marker" />
     </div>
   );
 }
