@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import BusinessItem from '../BusinessItem/BusinessItem'
+import './SearchResultBox.css';
+
 
 function SearchResultBox({ results, onSelect, onExpand}) {
   const [expandedId, setExpandedId] = useState(null);
@@ -22,8 +24,10 @@ function SearchResultBox({ results, onSelect, onExpand}) {
           >
             {expandedId !== business.id ? (
               <div className="collapsed-view">
-                <span>{business.name}</span> - 
-                <span>{business.location.address1}</span>
+                <p>{business.name}</p> 
+                <p>{business.location.city}</p>
+                {/* <p>{business.location.address1}</p> */}
+                <p>{business.rating} ⭐</p>
               </div>
             ) : (
               <BusinessItem business={business} handleExpandedBusinessView={onExpand}/>

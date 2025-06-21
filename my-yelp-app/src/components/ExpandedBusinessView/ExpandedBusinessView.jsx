@@ -51,18 +51,16 @@ function ExpandedBusinessView({ business, onClose }) {
         <span className="material-symbols-outlined">close</span>
       </button>
       
-      <div className="business-header">
-        <h1>{name}</h1>
-      </div>
-
-      <div className="business-details">
-        <p>Rating: {rating} ({review_count} reviews)</p>
-        <p>Price: {price}</p>
-        <p>Categories: {categories.map(cat => cat.title).join(', ')}</p>
-        <p>Address: {location.address1}</p>
-        <p>Phone: {phone}</p>
-        <a href={url} target="_blank" rel="noopener noreferrer">View on Yelp</a>
-      </div>
+      
+      <h1>{name}</h1>
+      <img src={image_url} alt={name} className="business-image" />
+      <p>Rating: {rating} ({review_count} reviews)</p>
+      <p>Price: {price}</p>
+      <p>Categories: {categories.map(cat => cat.title).join(', ')}</p>
+      <p>Address: {location.address1}</p>
+      <p>Phone: {phone}</p>
+      <a href={url} target="_blank" rel="noopener noreferrer">View on Yelp</a>
+      
       
       <button onClick={handleAddBusiness} className="add-button">
         <span className="material-symbols-outlined">add</span>

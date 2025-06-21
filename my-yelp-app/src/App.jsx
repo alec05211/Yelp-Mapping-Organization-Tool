@@ -23,6 +23,7 @@ function App() {
   });
   const [userLocation, setUserLocation] = useState(null);
   const [showCollection, setShowCollection] = useState(false);
+  const [expandedBusiness, setExpandedBusiness] = useState(null);
 
   useEffect(() => { // useEffect to get user location when component mounts
     if ("geolocation" in navigator) {
@@ -89,7 +90,7 @@ function App() {
   };
 
   const handleExpandedBusinessView = (business) => {
-    setBusinessExpanded(true);
+    setExpandedBusiness(business);
   };
   
   const handleListButtonClick = () => setShowCollection(true);
@@ -111,19 +112,22 @@ function App() {
       
       {hasSearched && (
         <div className="content-container">
-          <div className={`results-container ${businessExpanded ? 'shifted' : ''}`}>
-            <SearchResultBox 
-              results={results} 
-              onSelect={handleBusinessSelect} 
-              onExpand={handleExpandedBusinessView}
-            />
+          <div className={`results-container`}>
+            {!expandedBusiness && (
+              <SearchResultBox
+                results={results}
+                onSelect={handleBusinessSelect}
+                onExpand={handleExpandedBusinessView}
+              />
+            )}
+
+            {expandedBusiness && (
+              <ExpandedBusinessView
+                business={expandedBusiness}
+                onClose={() => setExpandedBusiness(null)}
+              />
+            )}
           </div>
-          
-          {businessExpanded && (
-            <div className="selected-business-expandedContainer">
-              <ExpandedBusinessView business={selectedBusiness} onClose={() => setBusinessExpanded(false)}/>
-            </div>
-          )}
 
           <div className="map-container">
             <Map
@@ -132,15 +136,11 @@ function App() {
               mapboxAccessToken={MAPBOX_TOKEN}
               style={{ width: '100%', height: '100%' }}
               mapStyle="mapbox://styles/mapbox/streets-v11"
-              // Add these props to address WebGL warnings
-              renderWorldCopies={false}
+              renderWorldCopies={false} // Added these props to address WebGL warnings
               reuseMaps
             >
               {userLocation && (
-                <Marker
-                  longitude={userLocation.longitude}
-                  latitude={userLocation.latitude}
-                >
+                <Marker longitude={userLocation.longitude} latitude={userLocation.latitude}>
                   <div style={{
                     width: '12px',
                     height: '12px',
@@ -153,21 +153,19 @@ function App() {
               )}
               
               {results.map(business => (
-                <Marker
-                  key={business.id}
-                  longitude={business.coordinates.longitude}
-                  latitude={business.coordinates.latitude}
-                >
+                <Marker key={business.id} longitude={business.coordinates.longitude} latitude={business.coordinates.latitude}>
                   <div style={{ color: 'red' }}>📍</div>
                 </Marker>
               ))}
             </Map>
           </div>
+
+          {showCollection && (
+            <UserBusinessCollection onClose={handleCloseCollection} />
+          )}
         </div>
       )}
-      {showCollection && (
-        <UserBusinessCollection onClose={handleCloseCollection} />
-      )}
+      
       <div className="user-location-marker" />
     </div>
   );

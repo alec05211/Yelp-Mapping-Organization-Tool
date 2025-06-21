@@ -1,3 +1,16 @@
 .expanded-business-view {
     align-items: center;
+    background-color: beige;
+
+    text-align: center;
+    align-items: center;;
+}
+
+.business-image {
+  width: 300px;      /* or any fixed width you want */
+  height: 200px;     /* or any fixed height you want */
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto;
 }

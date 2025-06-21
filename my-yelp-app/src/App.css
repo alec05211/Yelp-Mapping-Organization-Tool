@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  
   min-height: 100vh;
   width: 100%;
 }
@@ -42,6 +41,10 @@
   height: 500px;
   opacity: 1;
   position: relative;
+  width: 95%;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 }
 
 .results-container {
@@ -54,21 +57,16 @@
   pointer-events: auto;
 }
 
-.results-container.shifted {
-  transform: translateX(-100%);
-  opacity: 0;
-  pointer-events: none; /* Disables interaction */
-  visibility: hidden;   /* Hides from screen readers and tab order */
-}
-
 .selected-business-expandedContainer {
   flex: 1;
   position: absolute;      
   top: 1rem;
-  transform: translateX(100%);
-  animation: slideInFromRight 0.3s ease-out forwards;
+  animation: slideInFromRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards, fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   background: white;
   border-radius: 8px;
+  opacity: 0;
+  /* Add a delay for fade-in if you want */
+  animation-delay: 0s, 0.1s;
 }
 
 .map-container {

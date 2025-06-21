@@ -3,9 +3,8 @@ import './businessItem.css';
 
 function BusinessItem({ business, handleExpandedBusinessView }) {
 
-
   const expandBusinessView = (business) => {
-    console.log(`Expanding view for: ${business.name}`);
+    // console.log(`Expanding view for: ${business.name}`);
     handleExpandedBusinessView(business);
   }
 
