@@ -10,7 +10,7 @@ const client = new MongoClient(uri);
 export async function connectDB() {
   try {
     await client.connect();
-    console.log('Connected to MongoDB');
+    // console.log('Connected to MongoDB');
     return client.db('yelpapp');
   } catch (error) {
     console.error('MongoDB connection error:', error);

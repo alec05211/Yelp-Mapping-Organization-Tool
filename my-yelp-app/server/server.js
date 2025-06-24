@@ -3,6 +3,7 @@ import axios from 'axios'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import favoritesRouter from './routes/favorites.js'
+import foldersRouter from './routes/folders.js'
 import { connectDB } from './config/db.js';
 
 dotenv.config()
@@ -11,9 +12,9 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use('/api/favorites', favoritesRouter)
+app.use('/api/folders', foldersRouter)
 
-// Use correct environment variable name
-const YELP_API_KEY = process.env.VITE_YELP_API_KEY;
+const YELP_API_KEY = process.env.VITE_YELP_API_KEY; // Use correct environment variable name
 
 app.get('/api/search', async (req, res) => {
   try {
