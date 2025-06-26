@@ -6,10 +6,11 @@ const router = express.Router();
 router.post('/', async (req, res) => {
     try {
         const db = await connectDB();
-        const favorites = db.collection('favorites');
+        const items = db.collection('items'); 
 
-        const result = await favorites.insertOne({
+        const result = await items.insertOne({
             ...req.body,
+            type: "favorite", // Mark as favorite
             createdAt: new Date()
         });
 

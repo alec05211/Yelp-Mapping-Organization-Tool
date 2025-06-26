@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./UserBusinessCollection.css";
+import DroppableFolder from "../DraggableItems/DroppableFolder";
+import DraggableFavorite from "../draggableItems/DraggableFavorite";
 
 function UserBusinessCollection({ onClose }) {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [folders, setFolders] = useState([]);
   const [newFolderName, setNewFolderName] = useState("");
+  const [showCreateFolder, setShowCreateFolder] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:5000/api/folders")
@@ -44,12 +47,24 @@ function UserBusinessCollection({ onClose }) {
 
   const handleFolderClick = (folder) => {
     console.log("Folder clicked:", folder);
-    // Add your folder click handling logic here
+    
   };
 
   const handleFavoriteClick = (biz) => {
     console.log("Favorite clicked:", biz);
-    // Add your favorite click handling logic here
+  };
+
+  // On drop event handler
+  const handleDrop = (favoriteId, folderId) => {
+    fetch('http://localhost:5000/api/folders/add-favorite', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ favoriteId, folderId }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        // Update UI state as needed
+      });
   };
 
   return (
@@ -57,27 +72,49 @@ function UserBusinessCollection({ onClose }) {
       <button className="close-collection" onClick={onClose}>
         <span className="material-symbols-outlined">close</span>
       </button>
-      <input
-        type="text"
-        value={newFolderName}
-        onChange={(e) => setNewFolderName(e.target.value)}
-        placeholder="New folder name"
-      />
-      <button onClick={handleCreateFolder}>Create Folder</button>
       <h2>Your Business Collection</h2>
+      {showCreateFolder ? (
+        <div className="create-folder-form">
+          <input
+            type="text"
+            value={newFolderName}
+            onChange={(e) => setNewFolderName(e.target.value)}
+            placeholder="New folder name"
+          />
+          <button onClick={handleCreateFolder}>
+            <span className="material-symbols-outlined">
+              keyboard_return
+            </span>
+          </button>
+          <button onClick={() => setShowCreateFolder(false)}>
+            <span className="material-symbols-outlined">
+              cancel
+            </span>
+          </button>
+        </div>
+      ) : (
+        <button onClick={() => setShowCreateFolder(true)}>
+          <span className="material-symbols-outlined">create_new_folder</span>
+        </button>
+      )}
       {loading ? (
         <p>Loading...</p>
       ) : (
         <div className="collection-inline">
           {folders.map((folder) => (
-              <button key={folder._id} className="collection-item-btn" onClick={() => handleFolderClick(folder)}>
-                <span role="img" aria-label="folder">📁</span> {" "} {folder.name}
-              </button>
+            <DroppableFolder
+              key={folder._id}
+              folder={folder}
+              onDrop={handleDrop}
+              onClick={() => handleFolderClick(folder)}
+            />
           ))}
           {favorites.map((biz) => (
-              <button key={biz._id} className="collection-item-btn" onClick={() => handleFavoriteClick(biz)}>
-                {biz.name}
-              </button>
+            <DraggableFavorite
+              key={biz._id}
+              biz={biz}
+              onClick={() => handleFavoriteClick(biz)}
+            />
           ))}
         </div>
       )}

@@ -147,7 +147,7 @@ function App() {
                 auto
               />
 
-              {userLocation && (
+              {/* {userLocation && (
                 <Marker longitude={userLocation.longitude} latitude={userLocation.latitude}>
                   <div style={{
                     width: '12px',
@@ -158,7 +158,7 @@ function App() {
                     boxShadow: '0 0 0 2px rgba(33, 150, 243, 0.4)'
                   }}/>
                 </Marker>
-              )}
+              )} */}
               
               {results.map(business => (
                 <Marker key={business.id} longitude={business.coordinates.longitude} latitude={business.coordinates.latitude}>
