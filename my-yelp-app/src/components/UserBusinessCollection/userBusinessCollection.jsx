@@ -77,35 +77,38 @@ function UserBusinessCollection({ onClose }) {
         <span className="material-symbols-outlined">close</span>
       </button>
       <h2>Your Business Collection</h2>
-      {currentFolder && (
+      <div>
+        {currentFolder && (
         <button onClick={handleBackClick}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-      )}
-      {showCreateFolder ? (
-        <div className="create-folder-form">
-          <input
-            type="text"
-            value={newFolderName}
-            onChange={(e) => setNewFolderName(e.target.value)}
-            placeholder="New folder name"
-          />
-          <button onClick={handleCreateFolder}>
-            <span className="material-symbols-outlined">
-              keyboard_return
-            </span>
+        )}
+        {showCreateFolder ? (
+          <div className="create-folder-form">
+            <input
+              type="text"
+              value={newFolderName}
+              onChange={(e) => setNewFolderName(e.target.value)}
+              placeholder="New folder name"
+            />
+            <button onClick={handleCreateFolder}>
+              <span className="material-symbols-outlined">
+                keyboard_return
+              </span>
+            </button>
+            <button onClick={() => setShowCreateFolder(false)}>
+              <span className="material-symbols-outlined">
+                cancel
+              </span>
+            </button>
+          </div>
+        ) : (
+          <button onClick={() => setShowCreateFolder(true)}>
+            <span className="material-symbols-outlined">create_new_folder</span>
           </button>
-          <button onClick={() => setShowCreateFolder(false)}>
-            <span className="material-symbols-outlined">
-              cancel
-            </span>
-          </button>
-        </div>
-      ) : (
-        <button onClick={() => setShowCreateFolder(true)}>
-          <span className="material-symbols-outlined">create_new_folder</span>
-        </button>
-      )}
+        )}
+      </div>
+      
       {loading ? (
         <p>Loading...</p>
       ) : (

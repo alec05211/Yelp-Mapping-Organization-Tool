@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import SearchBar from './components/SearchBar/SearchBar';
 import SearchResultBox from './components/SearchResultBox/SearchResultBox';
@@ -16,7 +16,7 @@ function App() {
   const [hasSearched, setHasSearched] = useState(false);
   const [selectedBusiness, setSelectedBusiness] = useState(null);
   const [businessExpanded, setBusinessExpanded] = useState(false);
-  const [viewState, setViewState] = useState({  // populate with initial view state
+  const [viewState, setViewState] = useState({
     longitude: -87.6298, 
     latitude: 41.8781,
     zoom: 11
@@ -25,10 +25,20 @@ function App() {
   const [showCollection, setShowCollection] = useState(false);
   const [expandedBusiness, setExpandedBusiness] = useState(null);
 
+  // will reload mapbox with changes in the content-container flexbox 
+  const mapRef = useRef(); 
+  useEffect(() => {
+    if (mapRef.current) {
+      if (mapRef.current.resize) {
+        mapRef.current.resize();
+      }
+      
+    }
+  }, [showCollection]);
+
   useEffect(() => { // useEffect to get user location when component mounts
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
-        // Success callback
         position => {
           const newLocation = {
             longitude: position.coords.longitude,
@@ -41,7 +51,6 @@ function App() {
             zoom: 12
           }));
         },
-        // Error callback
         error => {
           console.warn("Error getting location:", error.message);
           // Keep default Chicago coordinates if geolocation fails
@@ -93,13 +102,12 @@ function App() {
     setExpandedBusiness(business);
   };
   
-  const handleListButtonClick = () => setShowCollection(true);
-  const handleCloseCollection = () => setShowCollection(false);
+  const handleToggleCollection = () => setShowCollection(prev => !prev);
 
   return (
     <div className="app-layout">
       <div className="navbar-section">
-        <Navbar onListButtonClick={handleListButtonClick}/>
+        <Navbar onListButtonClick={handleToggleCollection} />
       </div>
       
       <div className="search-bar-container">
@@ -110,8 +118,8 @@ function App() {
         <FoodRecSection onCategoryClick={handleCategoryClick} />
       </div>
       
-      {hasSearched && (
-        <div className="content-container">
+      <div className="content-container">
+        {hasSearched && !showCollection && (
           <div className={`results-container`}>
             {!expandedBusiness && (
               <SearchResultBox
@@ -128,33 +136,36 @@ function App() {
               />
             )}
           </div>
+        )}
 
-          <div className="map-container">
-            <Map
-              {...viewState}
-              onMove={evt => setViewState(evt.viewState)}
-              mapboxAccessToken={MAPBOX_TOKEN}
-              style={{ width: '100%', height: '100%' }}
-              mapStyle="mapbox://styles/mapbox/streets-v11"
-              renderWorldCopies={false}
-              reuseMaps
-            >
-              <GeolocateControl position="top-left" showAccuracyCircle={true} showUserLocation={true} trackUserLocation={true} auto/> 
+        <div className="map-container">
+          <Map
+            ref={mapRef}
+            {...viewState}
+            onMove={evt => setViewState(evt.viewState)}
+            mapboxAccessToken={MAPBOX_TOKEN}
+            style={{ width: '100%', height: '100%' }}
+            mapStyle="mapbox://styles/mapbox/streets-v11"
+            renderWorldCopies={false}
+            reuseMaps
+          >
+            <GeolocateControl position="top-left" showAccuracyCircle={true} showUserLocation={true} trackUserLocation={true} auto/> 
 
-              {results.map(business => (
-                <Marker key={business.id} longitude={business.coordinates.longitude} latitude={business.coordinates.latitude}>
-                  <div style={{ color: 'red' }}>📍</div>
-                </Marker>
-              ))}
-            </Map>
-          </div>
-
-          {showCollection && (
-            <UserBusinessCollection onClose={handleCloseCollection} />
-          )}
+            {results.map(business => (
+              <Marker key={business.id} longitude={business.coordinates.longitude} latitude={business.coordinates.latitude}>
+                <div style={{ color: 'red' }}>📍</div>
+              </Marker>
+            ))}
+          </Map>
         </div>
-      )}
+        {showCollection && (
+          <div className="user-collection">
+            <UserBusinessCollection onClose={handleToggleCollection} />
+          </div>
+        )}
+      </div>
     </div>
+      
   );
 }
 
