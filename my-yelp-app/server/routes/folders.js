@@ -2,18 +2,19 @@
 import express from 'express';
 const router = express.Router();
 import { connectDB } from '../config/db.js';
+import { ObjectId } from 'mongodb';
 
 router.post('/', async (req, res) => {
   const { name, parentFolderId } = req.body;
   try {
     const db = await connectDB();
-    const items = db.collection('items'); // Use 'items' collection
+    const items = db.collection('items');
 
     const result = await items.insertOne({
       name,
       type: "folder",
       parentFolderId: parentFolderId || null, 
-      favoriteIds: [asdasd], // initialize an empty folder with no favorites
+      favoriteIds: [], // initialize an empty folder with no favorites
       createdAt: new Date(),
     });
 
@@ -31,14 +32,14 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const db = await connectDB();
-    const folders = db.collection('folders');
+    const items = db.collection('items'); // <-- Use 'items' collection
 
-    const allFolders = await folders.find({}).toArray();
+    // Only get folders from items collection
+    const allFolders = await items.find({ type: "folder" }).toArray();
 
     res.status(200).json(allFolders);
   } catch (error) {
     console.error('Database error:', error);
-    console.log('this is happening');
     res.status(500).json({ error: 'Failed to retrieve folders' });
   }
 });

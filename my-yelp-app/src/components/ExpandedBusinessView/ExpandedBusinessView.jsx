@@ -22,9 +22,7 @@ function ExpandedBusinessView({ business, onClose }) {
         })
       });
 
-      if (!response.ok) {throw new Error('Failed to add business to favorites');}   // if response is not ok, throw an error
-      alert('Added to favorites!');                                                 // otherwise, show success message                  
-                                                     
+      if (!response.ok) {throw new Error('Failed to add business to favorites');}   // if response is not ok, throw an error                                          
     } catch (error) {
       console.error('ERROR ADDING BUSINESS! -> ', error);
       alert('Failed to add business');

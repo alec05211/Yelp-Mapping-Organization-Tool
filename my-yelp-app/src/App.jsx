@@ -123,7 +123,7 @@ function App() {
 
             {expandedBusiness && (
               <ExpandedBusinessView
-                business={expandedBusiness}
+                business={selectedBusiness}
                 onClose={() => setExpandedBusiness(null)}
               />
             )}
@@ -139,27 +139,8 @@ function App() {
               renderWorldCopies={false}
               reuseMaps
             >
-              <GeolocateControl
-                position="top-left"
-                showAccuracyCircle={true}
-                showUserLocation={true}
-                trackUserLocation={true}
-                auto
-              />
+              <GeolocateControl position="top-left" showAccuracyCircle={true} showUserLocation={true} trackUserLocation={true} auto/> 
 
-              {/* {userLocation && (
-                <Marker longitude={userLocation.longitude} latitude={userLocation.latitude}>
-                  <div style={{
-                    width: '12px',
-                    height: '12px',
-                    backgroundColor: '#2196F3',
-                    borderRadius: '50%',
-                    border: '2px solid white',
-                    boxShadow: '0 0 0 2px rgba(33, 150, 243, 0.4)'
-                  }}/>
-                </Marker>
-              )} */}
-              
               {results.map(business => (
                 <Marker key={business.id} longitude={business.coordinates.longitude} latitude={business.coordinates.latitude}>
                   <div style={{ color: 'red' }}>📍</div>

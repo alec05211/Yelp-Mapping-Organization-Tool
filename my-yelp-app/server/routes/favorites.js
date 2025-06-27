@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const db = await connectDB();
-        const favorites = db.collection('favorites');
+        const favorites = db.collection('items');
 
         const allFavorites = await favorites.find({}).toArray();
 

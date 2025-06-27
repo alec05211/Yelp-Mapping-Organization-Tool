@@ -9,15 +9,19 @@ function UserBusinessCollection({ onClose }) {
   const [folders, setFolders] = useState([]);
   const [newFolderName, setNewFolderName] = useState("");
   const [showCreateFolder, setShowCreateFolder] = useState(false);
+  const [currentFolder, setCurrentFolder] = useState(null);
 
-  useEffect(() => {
+  const visibleFolders = folders.filter(f => (currentFolder ? f.parentFolderId === currentFolder._id : !f.parentFolderId));
+  const visibleFavorites = favorites
+    .filter(fav => fav.type === "favorite")
+    .filter(fav => (currentFolder ? fav.folderId === currentFolder._id : !fav.folderId));
+
+  const fetchData = () => {
+    setLoading(true);
     fetch("http://localhost:5000/api/folders")
       .then((res) => res.json())
-      .then((data) => {
-        // Ensure folders is always an array
-        setFolders(Array.isArray(data) ? data : []);
-      })
-      .catch(() => setFolders([])); // On error, set to empty array
+      .then((data) => setFolders(Array.isArray(data) ? data : []))
+      .catch(() => setFolders([]));
 
     fetch("http://localhost:5000/api/favorites")
       .then((res) => res.json())
@@ -26,6 +30,10 @@ function UserBusinessCollection({ onClose }) {
         setLoading(false);
       })
       .catch(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   const handleCreateFolder = () => {
@@ -36,34 +44,30 @@ function UserBusinessCollection({ onClose }) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name: newFolderName }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setFolders((prev) => [...prev, data]);
+      body: JSON.stringify({ name: newFolderName, parentFolderId: currentFolder ? currentFolder._id : null }),
+    }).then((res) => res.json())
+      .then(() => {
+        fetchData();
         setNewFolderName("");
       });
   };
 
-  const handleFolderClick = (folder) => {
-    console.log("Folder clicked:", folder);
-    
+  const handleBackClick = () => {
+    setCurrentFolder(null); // Go back to root
   };
 
   const handleFavoriteClick = (biz) => {
     console.log("Favorite clicked:", biz);
   };
 
-  // On drop event handler
   const handleDrop = (favoriteId, folderId) => {
     fetch('http://localhost:5000/api/folders/add-favorite', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ favoriteId, folderId }),
-    })
-      .then(res => res.json())
-      .then(data => {
-        // Update UI state as needed
+    }).then(res => res.json())
+      .then(() => {
+        fetchData(); 
       });
   };
 
@@ -73,6 +77,11 @@ function UserBusinessCollection({ onClose }) {
         <span className="material-symbols-outlined">close</span>
       </button>
       <h2>Your Business Collection</h2>
+      {currentFolder && (
+        <button onClick={handleBackClick}>
+          <span className="material-symbols-outlined">arrow_back</span>
+        </button>
+      )}
       {showCreateFolder ? (
         <div className="create-folder-form">
           <input
@@ -101,15 +110,15 @@ function UserBusinessCollection({ onClose }) {
         <p>Loading...</p>
       ) : (
         <div className="collection-inline">
-          {folders.map((folder) => (
+          {visibleFolders.map((folder) => (
             <DroppableFolder
               key={folder._id}
               folder={folder}
               onDrop={handleDrop}
-              onClick={() => handleFolderClick(folder)}
+              onClick={() => setCurrentFolder(folder)} // sets current folder to reset the collection view to current open folder
             />
           ))}
-          {favorites.map((biz) => (
+          {visibleFavorites.map((biz) => (
             <DraggableFavorite
               key={biz._id}
               biz={biz}
